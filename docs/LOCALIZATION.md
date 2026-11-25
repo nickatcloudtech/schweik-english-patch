@@ -47,8 +47,8 @@ This repo ships **tools and translations only** — never commit retail game ass
 ### Players (English subtitles + Russian voices)
 
 ```bash
-git clone https://github.com/YOUR_USER/qdEngine.git
-cd qdEngine
+git clone https://github.com/nickatcloudtech/schweik-english-patch.git
+cd schweik-english-patch
 
 # Put your game in game/shveik/app/  (or pass path to ./deploy later)
 pip install pillow
@@ -60,8 +60,8 @@ Restart ScummVM fully after each `./deploy`.
 ### Contributors (your own language fork)
 
 ```bash
-git clone https://github.com/YOUR_USER/qdEngine.git
-cd qdEngine
+git clone https://github.com/nickatcloudtech/schweik-english-patch.git
+cd schweik-english-patch
 git checkout -b localization/german   # example
 
 # 1. Point at your legal game install

@@ -42,8 +42,8 @@ Your game folder should contain `qd_game.qml`, `qd_game.ini`, and `Resource/reso
 ### 2. Clone this repository
 
 ```bash
-git clone https://github.com/YOUR_USER/qdEngine.git
-cd qdEngine
+git clone https://github.com/nickatcloudtech/schweik-english-patch.git
+cd schweik-english-patch
 ```
 
 ### 3. Point the patch at your game
@@ -51,7 +51,7 @@ cd qdEngine
 Either copy/link the game into the repo:
 
 ```
-qdEngine/game/shveik/app/   ← qd_game.qml, Resource/, etc.
+schweik-english-patch/game/shveik/app/   ← qd_game.qml, Resource/, etc.
 ```
 
 Or pass your install path to `./deploy` (step 4).
@@ -128,7 +128,7 @@ Not in this version: signs, letters, the newspaper, inventory screens, the Bible
 ## Repository layout
 
 ```
-qdEngine/
+schweik-english-patch/
 ├── README.md                 ← you are here
 ├── INSTALL.md                ← detailed install & troubleshooting
 ├── docs/LOCALIZATION.md      ← add languages, voices, UI; contributor guide
