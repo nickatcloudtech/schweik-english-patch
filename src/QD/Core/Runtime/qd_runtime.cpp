@@ -15,6 +15,7 @@
 #include "qd_trigger_chain.h"
 #include "qd_dialogs.h"
 #include "qd_setup.h"
+#include "qd_localization.h"
 #include "ds_snd_dispatcher.h"
 #include "WinVideo.h"
 #include "qd_trigger_profiler.h"
@@ -55,7 +56,7 @@ bool request_CD_handler(int cd_id);
 
 /* --------------------------- DEFINITION SECTION --------------------------- */
 
-//! Командная строка
+//! пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 enum {
 	COMLINE_SCENE_NAME,
 	COMLINE_ENABLE_LOG,
@@ -161,6 +162,7 @@ int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpszCmdLine
 	dd_grD -> HideMouse();
 
 	qdGameConfig::get_config().load();
+	qdLocalization::instance().load();
 	setlocale(LC_CTYPE, qdGameConfig::get_config().locale());
 									 
 #ifdef __QD_TRIGGER_PROFILER__
@@ -222,7 +224,7 @@ int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpszCmdLine
 	qd_gameD -> load_resources();
 	
 	if(const char* scene_name = comline_parser.argument_string(COMLINE_SCENE_NAME)){
-		if(!qd_gameD -> select_scene(scene_name)) app_errH.show_error("Стартовая сцена не найдена",appErrorHandler::ERR_OTHER);
+		if(!qd_gameD -> select_scene(scene_name)) app_errH.show_error("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ",appErrorHandler::ERR_OTHER);
 	}
 	else {
 		bool music_enabled = mpegPlayer::instance().is_enabled();
@@ -309,8 +311,8 @@ int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpszCmdLine
 			if (was_inactive)
 			{
 				was_inactive = false;
-				// При активации ждем, чтобы звукововая система успела настроиться
-				// на наше приложение (предположение)
+				// пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+				// пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ)
 				Sleep(500); 
 			}
 			resD.quant();
@@ -357,7 +359,7 @@ void init_graphics()
 
 
 	if(!init_graphics_dispatcher())
-		app_errH.show_error("Ошибка инициализации графики",appErrorHandler::ERR_OTHER);
+		app_errH.show_error("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ",appErrorHandler::ERR_OTHER);
 
 	grDispatcher::instance() -> resize_window();
 

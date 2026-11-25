@@ -801,6 +801,12 @@
 				<File
 					RelativePath=".\qdCore\qd_setup.h">
 				</File>
+				<File
+					RelativePath=".\qdCore\qd_localization.cpp">
+				</File>
+				<File
+					RelativePath=".\qdCore\qd_localization.h">
+				</File>
 			</Filter>
 			<Filter
 				Name="Base"

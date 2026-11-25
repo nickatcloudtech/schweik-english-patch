@@ -1,0 +1,22 @@
+archive_path,local_path,filename,kind,width,height,translate,english_hint,notes
+Resource\Карта\Animation\вокзал.qda,Resource/Карта/Animation/вокзал.qda,вокзал.qda,click_zone_overlay,800,600,no,Train station (click zone only — no baked label art),Train station (click zone only — no baked label art)
+Resource\Карта\Animation\вокзал_подсветка.qda,Resource/Карта/Animation/вокзал_подсветка.qda,вокзал_подсветка.qda,click_zone_overlay,800,600,no,Train station (click zone only — no baked label art),Train station (click zone only — no baked label art)
+Resource\Карта\Animation\дом каца.qda,Resource/Карта/Animation/дом каца.qda,дом каца.qda,click_zone_overlay,800,600,no,Katz's house (click zone only),Katz's house (click zone only)
+Resource\Карта\Animation\дом каца_подсветка.qda,Resource/Карта/Animation/дом каца_подсветка.qda,дом каца_подсветка.qda,click_zone_overlay,800,600,no,Katz's house (click zone only),Katz's house (click zone only)
+Resource\Карта\Animation\квартира лукаша.qda,Resource/Карта/Animation/квартира лукаша.qda,квартира лукаша.qda,click_zone_overlay,800,600,no,Lukash's apartment (click zone only),Lukash's apartment (click zone only)
+Resource\Карта\Animation\квартира лукаша_подсветка.qda,Resource/Карта/Animation/квартира лукаша_подсветка.qda,квартира лукаша_подсветка.qda,click_zone_overlay,800,600,no,Lukash's apartment (click zone only),Lukash's apartment (click zone only)
+Resource\Карта\Animation\кухня швейка.qda,Resource/Карта/Animation/кухня швейка.qda,кухня швейка.qda,label_sprite,209,62,yes,Schweik's kitchen — translate label sprite,Schweik's kitchen — translate label sprite
+Resource\Карта\Animation\кухня швейка_подсветка.qda,Resource/Карта/Animation/кухня швейка_подсветка.qda,кухня швейка_подсветка.qda,label_sprite,209,62,yes,Schweik's kitchen — translate label sprite,Schweik's kitchen — translate label sprite
+Resource\Карта\Animation\парк.qda,Resource/Карта/Animation/парк.qda,парк.qda,click_zone_overlay,800,600,no,Park (click zone only),Park (click zone only)
+Resource\Карта\Animation\парк_подсветка.qda,Resource/Карта/Animation/парк_подсветка.qda,парк_подсветка.qda,click_zone_overlay,800,600,no,Park (click zone only),Park (click zone only)
+Resource\Карта\Animation\площадь.qda,Resource/Карта/Animation/площадь.qda,площадь.qda,click_zone_overlay,800,600,no,Square (click zone only),Square (click zone only)
+Resource\Карта\Animation\площадь_подсветка.qda,Resource/Карта/Animation/площадь_подсветка.qda,площадь_подсветка.qda,click_zone_overlay,800,600,no,Square (click zone only),Square (click zone only)
+Resource\Карта\Animation\психушка.qda,Resource/Карта/Animation/психушка.qda,психушка.qda,click_zone_overlay,800,600,no,Asylum (click zone only),Asylum (click zone only)
+Resource\Карта\Animation\психушка_подсветка.qda,Resource/Карта/Animation/психушка_подсветка.qda,психушка_подсветка.qda,click_zone_overlay,800,600,no,Asylum (click zone only),Asylum (click zone only)
+Resource\Карта\Animation\трактир.qda,Resource/Карта/Animation/трактир.qda,трактир.qda,label_sprite,209,62,yes,"Tavern ""At the Cup"" — translate label sprite","Tavern ""At the Cup"" — translate label sprite"
+Resource\Карта\Animation\трактир_подсветка.qda,Resource/Карта/Animation/трактир_подсветка.qda,трактир_подсветка.qda,label_sprite,209,62,yes,"Tavern ""At the Cup"" — translate label sprite","Tavern ""At the Cup"" — translate label sprite"
+Resource\Карта\Animation\участок и комиссариат.qda,Resource/Карта/Animation/участок и комиссариат.qda,участок и комиссариат.qda,click_zone_overlay,800,600,no,Police station & commissariat (click zone only),Police station & commissariat (click zone only)
+Resource\Карта\Animation\участок и комиссариат_подсветка.qda,Resource/Карта/Animation/участок и комиссариат_подсветка.qda,участок и комиссариат_подсветка.qda,click_zone_overlay,800,600,no,Police station & commissariat (click zone only),Police station & commissariat (click zone only)
+Resource\Карта\Animation\храм.qda,Resource/Карта/Animation/храм.qda,храм.qda,click_zone_overlay,800,600,no,Temple (click zone only),Temple (click zone only)
+Resource\Карта\Animation\храм_подсветка.qda,Resource/Карта/Animation/храм_подсветка.qda,храм_подсветка.qda,click_zone_overlay,800,600,no,Temple (click zone only),Temple (click zone only)
+Resource\Карта\Static\fon.tga,Resource/Карта/Static/fon.tga,fon.tga,background,,,optional,City Map of Prague (optional — retail art uses German title),"Parchment map artwork; location markers are colored blocks, not text labels"

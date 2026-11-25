@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# One-command English patch installer for Schweik.
+# Usage: ./install
+#    or: ./install /path/to/game/folder
+#
+# Rewriting resource0.pak can take 1-3 minutes with no output — that is normal.
+
+set -euo pipefail
+ROOT="$(cd "$(dirname "$0")" && pwd)"
+GAME_DIR="${1:-$ROOT/game/shveik/app}"
+
+echo "Installing English patch into: $GAME_DIR"
+echo "(Rewrites resource0.pak — slow. For ScummVM, prefer ./deploy instead.)"
+exec python3 "$ROOT/tools/install_patch.py" --game-dir "$GAME_DIR" --no-cd

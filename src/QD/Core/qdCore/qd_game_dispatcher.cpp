@@ -15,6 +15,7 @@
 #include "qd_game_dispatcher.h"
 
 #include "qd_textdb.h"
+#include "qd_localization.h"
 #include "qd_sound.h"
 #include "qd_music_track.h"
 #include "qd_video.h"
@@ -468,8 +469,9 @@ void qdGameDispatcher::load_script(const xml::tag* p)
 #endif
 
 	if(!texts_database_.empty()){
+		std::string text_db_path = qdLocalization::instance().resolve_text_database(texts_database_.c_str());
 		XZipStream fh;
-		if(qdFileManager::instance().open_file(fh,texts_database_.c_str(),false))
+		if(qdFileManager::instance().open_file(fh,text_db_path.c_str(),false))
 			qdTextDB::instance().load(fh);
 	}
 	else
@@ -494,11 +496,11 @@ bool qdGameDispatcher::save_script(XStream& fh) const
 	if(default_font_)
 		fh < "\t<default_font>" <= default_font_ < "</default_font>\r\n";
 	
-	// Сохраняем глобальный формат до сохранения прочих объектов с форматом	
-	// текста чтобы он загрузился раньше прочих объектов с форматом текста
-	// и все нормально проинициализировалось
+	// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ	
+	// пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+	// пїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	qdScreenTextFormat frmt = qdScreenTextFormat::global_text_format();
-	frmt.toggle_global_depend(false); // Чтобы нормально сохранилось
+	frmt.toggle_global_depend(false); // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	frmt.save_script(fh,1);
 
 	frmt = qdScreenTextFormat::global_topic_format();
@@ -584,7 +586,7 @@ void qdGameDispatcher::load_script(const char* fname)
 	unsigned int start_clock = xclock();
 	pr.parse_file(fname);
 	unsigned int end_clock = xclock();
-	appLog::default_log() << "Парсинг скрипта: " << end_clock - start_clock << " мс\r\n";
+	appLog::default_log() << "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ: " << end_clock - start_clock << " пїЅпїЅ\r\n";
 
 	if(pr.is_script_binary()){
 		enable_file_packages_ = true;
@@ -597,7 +599,7 @@ void qdGameDispatcher::load_script(const char* fname)
 		load_script(tg);
 
 	end_clock = xclock();
-	appLog::default_log() << "Обработка скрипта: " << end_clock - start_clock << " мс\r\n";
+	appLog::default_log() << "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ: " << end_clock - start_clock << " пїЅпїЅ\r\n";
 
 	pr.clear();
 }
@@ -2318,7 +2320,7 @@ bool qdGameDispatcher::select_scene(qdGameScene* sp,bool resources_flag)
 	}
 
 	tm = xclock() - tm;
-	__QDBG(if(cur_scene_) appLog::default_log() << "Загрузка сцены \"" << cur_scene_->name() << "\" " << tm << " мс\r\n");
+	__QDBG(if(cur_scene_) appLog::default_log() << "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ \"" << cur_scene_->name() << "\" " << tm << " пїЅпїЅ\r\n");
 
 	return true;
 }
@@ -2549,7 +2551,7 @@ bool qdGameDispatcher::keyboard_handler(int vkey, bool event)
 
 bool qdGameDispatcher::load_data(const char* fname)
 {
-	__QDBG(appLog::default_log() << appLog::default_log().time_string() << " загрузка сэйва " << fname << "\r\n");
+	__QDBG(appLog::default_log() << appLog::default_log().time_string() << " пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ " << fname << "\r\n");
 
 	if(sndDispatcher* p = sndDispatcher::get_dispatcher()){
 		p -> stop_sounds();
@@ -2899,7 +2901,7 @@ bool qdGameDispatcher::init()
 	for(qdGameObjectList::const_iterator it = global_object_list().begin(); it != global_object_list().end(); ++it)
 		(*it) -> init();
 
-	//! Грузим шрифты, заданные в qdGameDispatcher::qdFontInfoList
+	//! пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ qdGameDispatcher::qdFontInfoList
 	for (std::list<qdFontInfo*>::const_iterator it = fonts_.get_list().begin(); 
 	     it != fonts_.get_list().end(); ++it)
 		(*it)->load_font();
@@ -2918,7 +2920,7 @@ bool qdGameDispatcher::load_game(int slot_id)
 
 	if(app_io::is_file_exist(save_name)){
 		if(!load_data(save_name))
-			app_errH.show_error("Сохраненная игра не может быть загружена");
+			app_errH.show_error("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
 	}
 
 	scene_saved_ = true;
@@ -3227,12 +3229,12 @@ bool qdGameDispatcher::adjust_global_object_files_paths(const char* copy_dir, co
 		 it != fonts_list().end(); ++it)
 	{
 		std::string tga_file = (*it)->font_file_name();
-		// Правим положение idx
+		// пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ idx
 		(*it)->set_font_file_name(app_io::change_ext((*it)->font_file_name(), ".idx"));
 		QD_ADJUST_TO_REL_FILE_MEMBER(pack_corr_dir, (*it)->font_file_name, 
 			                         (*it)->set_font_file_name, can_overwrite, all_ok);
-		// Правим положение tga
-		(*it)->set_font_file_name(tga_file.c_str()); // Восстанавливаем старый путь
+		// пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ tga
+		(*it)->set_font_file_name(tga_file.c_str()); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
 		(*it)->set_font_file_name(app_io::change_ext((*it)->font_file_name(), ".tga"));
 		QD_ADJUST_TO_REL_FILE_MEMBER(pack_corr_dir, (*it)->font_file_name, 
 			                         (*it)->set_font_file_name, can_overwrite, all_ok);
@@ -3384,7 +3386,7 @@ const char* qdGameDispatcher::cd_request_string(int cd_id) const
 	static XBuffer str;
 	str.init();
 
-	str < "Вставьте CD";
+	str < "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ CD";
 
 	if(CD_count() > 1)
 		str < " " <= cd_id + 1;
@@ -3504,7 +3506,7 @@ bool qdGameDispatcher::activate_trigger_links(const qdNamedObject* p)
 	return true;
 }
 
-// Поиск шрифтов
+// пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 qdFontInfo* qdGameDispatcher::find_font_info(int type)
 {
 	for (qdFontInfoList::const_iterator it = fonts_list().begin(); it != fonts_list().end(); it++)
@@ -3531,10 +3533,10 @@ const grFont* qdGameDispatcher::find_font(int type) const
 }
 
 
-// Операции со шрифтами
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 bool qdGameDispatcher::add_font_info(qdFontInfo* fi)
 { 
-	// проверяем уникальность идентификатора, вставляемого типа
+	// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
 	if (NULL == find_font_info(fi->type())){
 		fonts_.add_object(fi);
 		return true;
@@ -3588,7 +3590,7 @@ bool qdGameDispatcher::copy_resources_to_folder(const char* dest_dir, const char
 	for(qdGameSceneList::const_iterator it = scene_list().begin(); it != scene_list().end(); it++)
 		(*it) -> get_files_list(files_to_copy, files_to_pack);
 
-	// в files_to_copy - все файлы, которые надо скопировать
+	// пїЅ files_to_copy - пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	files_to_copy.clear();
 	for(qdFileNameList::const_iterator it = files_to_pack.begin(); it != files_to_pack.end(); it++){
 		if(0 == stricmp(file_extension, app_io::get_ext(it->c_str())))
@@ -3601,11 +3603,11 @@ bool qdGameDispatcher::copy_resources_to_folder(const char* dest_dir, const char
 	int file_count = files_to_copy.size();
 	int files_processed = 0;
 	for(qdFileNameList::const_iterator it = files_to_copy.begin(); it != files_to_copy.end(); it++){
-		// Формируем имя файла и прикрепляем к нему путь папки-хранилища файлов
+		// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 		save_str = app_io::path_to_file_name(it->c_str());
 		save_str = '\\' + save_str;
 		save_str = dest_dir + save_str;
-		// Копируем и сообщаем об ошибке, если произошла
+		// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 		if(!app_io::copy_file(save_str.c_str(),it->c_str())){
 			appLog::default_log() << "Error: could not copy " << it->c_str()
 				              << " to directory " << dest_dir << "\r\n";
@@ -3629,7 +3631,7 @@ bool qdGameDispatcher::copy_resources_from_folder(const char* src_dir, const cha
 		(*c_it)->get_files_list(files_to_copy, resource_files);
 	}
 
-	// в files_to_copy - все файлы, которые надо скопировать
+	// пїЅ files_to_copy - пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	files_to_copy.clear();
 	for(qdFileNameList::const_iterator it = resource_files.begin(); it != resource_files.end(); it++){
 		if(0 == stricmp(file_extension, app_io::get_ext(it->c_str())))
@@ -3656,12 +3658,12 @@ bool qdGameDispatcher::copy_resources_from_folder(const char* src_dir, const cha
 
 	bool all_copy_ok = true;
 	for(qdFileNameList::const_iterator it = resource_files.begin(); it != resource_files.end(); it++){
-		bool fnd_flag = false; // По умолчанию не нашли файл для текущего файла из папки-источника
+		bool fnd_flag = false; // пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
-		// Ищем место файлу в глобальном списке
+		// пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 		for (qdFileNameList::const_iterator c_it = files_to_copy.begin(); c_it != files_to_copy.end(); c_it++){
 			if ( 0 == stricmp(it -> c_str(), app_io::path_to_file_name(*c_it).c_str()) ){
-				// Нашли соотв. файл - копируем
+				// пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅ - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 				fnd_flag = true;
 				path = src_dir;
 				path += '\\';
@@ -3680,7 +3682,7 @@ bool qdGameDispatcher::copy_resources_from_folder(const char* src_dir, const cha
 		if(callback)
 			(*callback)(files_processed * 100 / file_count,callback_context);
 
-		// Если для некоторых файлов соотв. файлы обнаружить не удалось - warning
+		// пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ - warning
 		if (false == fnd_flag)
 			appLog::default_log() << "Warning: appropriate file for " 
 			                      << it -> c_str() << " not found.\r\n";
@@ -3761,52 +3763,52 @@ bool qdGameDispatcher::write_resource_stats(const char* file_name) const
 	interface_dispatcher_.get_resources_info(interface_info);
 	std::sort(interface_info.rbegin(),interface_info.rend());
 
-	total_size += write_resource_stats(fh,global_info,"Глобальные объекты");
-	if(cur_scene_) total_size += write_resource_stats(fh,scene_info,"Сцена");
-	total_size += write_resource_stats(fh,interface_info,"Интерфейс");
+	total_size += write_resource_stats(fh,global_info,"пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
+	if(cur_scene_) total_size += write_resource_stats(fh,scene_info,"пїЅпїЅпїЅпїЅпїЅ");
+	total_size += write_resource_stats(fh,interface_info,"пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
 
 	fh < "<tr><td class=\"to_c\">\r\n";
 	fh < "<table width=\"100%\" cellspacing=\"1\" cellpadding=\"3\" class =\"with_border\">\r\n";
 
 	char buf[256];
-	fh < "<tr class=\"header\"><td class=\"name\">Всего</td><td>-</td><td class=\"to_r\">";
+	fh < "<tr class=\"header\"><td class=\"name\">пїЅпїЅпїЅпїЅпїЅ</td><td>-</td><td class=\"to_r\">";
 	sprintf(buf,"%.2f",float(total_size) / (1024.0f * 1024.0f));
 	fh < buf;
 	fh < "</td></tr></table>\r\n";
 
 	unsigned snd_total_size = 0;
-	snd_total_size += write_resource_stats(fh,global_info,"[Звуки] Глобальные объекты",qdResource::RES_SOUND);
-	if(cur_scene_) snd_total_size += write_resource_stats(fh,scene_info,"[Звуки] Сцена",qdResource::RES_SOUND);
-	snd_total_size += write_resource_stats(fh,interface_info,"[Звуки] Интерфейс",qdResource::RES_SOUND);
+	snd_total_size += write_resource_stats(fh,global_info,"[пїЅпїЅпїЅпїЅпїЅ] пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ",qdResource::RES_SOUND);
+	if(cur_scene_) snd_total_size += write_resource_stats(fh,scene_info,"[пїЅпїЅпїЅпїЅпїЅ] пїЅпїЅпїЅпїЅпїЅ",qdResource::RES_SOUND);
+	snd_total_size += write_resource_stats(fh,interface_info,"[пїЅпїЅпїЅпїЅпїЅ] пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ",qdResource::RES_SOUND);
 
 	unsigned anm_total_size = 0;
-	anm_total_size += write_resource_stats(fh,global_info,"[Анимация] Глобальные объекты",qdResource::RES_ANIMATION);
-	if(cur_scene_) anm_total_size += write_resource_stats(fh,scene_info,"[Анимация] Сцена",qdResource::RES_ANIMATION);
-	anm_total_size += write_resource_stats(fh,interface_info,"[Анимация] Интерфейс",qdResource::RES_ANIMATION);
+	anm_total_size += write_resource_stats(fh,global_info,"[пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ] пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ",qdResource::RES_ANIMATION);
+	if(cur_scene_) anm_total_size += write_resource_stats(fh,scene_info,"[пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ] пїЅпїЅпїЅпїЅпїЅ",qdResource::RES_ANIMATION);
+	anm_total_size += write_resource_stats(fh,interface_info,"[пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ] пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ",qdResource::RES_ANIMATION);
 
 	unsigned static_total_size = 0;
-	static_total_size += write_resource_stats(fh,global_info,"[Статика] Глобальные объекты",qdResource::RES_SPRITE);
-	if(cur_scene_) static_total_size += write_resource_stats(fh,scene_info,"[Статика] Сцена",qdResource::RES_SPRITE);
-	static_total_size += write_resource_stats(fh,interface_info,"[Статика] Интерфейс",qdResource::RES_SPRITE);
+	static_total_size += write_resource_stats(fh,global_info,"[пїЅпїЅпїЅпїЅпїЅпїЅпїЅ] пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ",qdResource::RES_SPRITE);
+	if(cur_scene_) static_total_size += write_resource_stats(fh,scene_info,"[пїЅпїЅпїЅпїЅпїЅпїЅпїЅ] пїЅпїЅпїЅпїЅпїЅ",qdResource::RES_SPRITE);
+	static_total_size += write_resource_stats(fh,interface_info,"[пїЅпїЅпїЅпїЅпїЅпїЅпїЅ] пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ",qdResource::RES_SPRITE);
 
 	fh < "<tr><td class=\"to_c\">\r\n";
 	fh < "<table width=\"100%\" cellspacing=\"1\" cellpadding=\"3\" class =\"with_border\">\r\n";
 
-	fh < "<tr class=\"header\"><td class=\"to_c\" colspan=\"2\">Всего</td></tr>\r\n";
+	fh < "<tr class=\"header\"><td class=\"to_c\" colspan=\"2\">пїЅпїЅпїЅпїЅпїЅ</td></tr>\r\n";
 
-	fh < "<tr class=\"line0\"><td>Звуки</td><td class=\"to_r\">";
+	fh < "<tr class=\"line0\"><td>пїЅпїЅпїЅпїЅпїЅ</td><td class=\"to_r\">";
 	sprintf(buf,"%.2f",float(snd_total_size) / (1024.0f * 1024.0f));
 	fh < buf < "</td></tr>\r\n";
 
-	fh < "<tr class=\"line1\"><td>Анимация</td><td class=\"to_r\">";
+	fh < "<tr class=\"line1\"><td>пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ</td><td class=\"to_r\">";
 	sprintf(buf,"%.2f",float(anm_total_size) / (1024.0f * 1024.0f));
 	fh < buf < "</td></tr>\r\n";
 
-	fh < "<tr class=\"line0\"><td>Статика</td><td class=\"to_r\">";
+	fh < "<tr class=\"line0\"><td>пїЅпїЅпїЅпїЅпїЅпїЅпїЅ</td><td class=\"to_r\">";
 	sprintf(buf,"%.2f",float(static_total_size) / (1024.0f * 1024.0f));
 	fh < buf < "</td></tr>\r\n";
 
-	fh < "<tr class=\"header\"><td>По всем ресурсам</td><td class=\"to_r\">";
+	fh < "<tr class=\"header\"><td>пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ</td><td class=\"to_r\">";
 	sprintf(buf,"%.2f",float(total_size) / (1024.0f * 1024.0f));
 	fh < buf < "</td></tr>\r\n";
 
@@ -3841,7 +3843,7 @@ unsigned qdGameDispatcher::write_resource_stats(XStream& fh,const qdResourceInfo
 	if(title)
 		fh < "<tr class=\"header\"><td colspan=\"3\" class=\"to_c\">" < qdscr_XML_string(title) < "</td></tr>\r\n";
 
-	fh < "<tr class=\"header\"><td>Имя объекта</td><td>Имя файла</td><td>Размер, МБ</td>\r\n";
+	fh < "<tr class=\"header\"><td>пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ</td><td>пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ</td><td>пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅ</td>\r\n";
 
 	int line_id = 0;
 

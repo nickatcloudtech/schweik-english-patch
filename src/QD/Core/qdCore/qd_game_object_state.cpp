@@ -17,6 +17,7 @@
 #include "qd_game_scene.h"
 #include "qd_resource_dispatcher.h"
 #include "qd_game_dispatcher.h"
+#include "qd_localization.h"
 
 #ifdef _QUEST_EDITOR
 #include "qd_game_object_mouse.h"
@@ -488,7 +489,7 @@ bool qdGameObjectState::save_script_body(XStream& fh,int indent) const
 bool qdGameObjectState::init()
 {
 	if(!qdConditionalObject::init()) return false;
-	// Ищем по ссылке и инициализируем найденным стартовый объект координатной анимации
+	// пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	qdNamedObject* nam_obj = qdGameDispatcher::get_dispatcher()->
 		                       get_named_object(&coords_animation_.start_object_ref());
 	coords_animation_.set_start_object(dynamic_cast<const qdGameObject*>(nam_obj));
@@ -531,7 +532,8 @@ void qdGameObjectState::quant(float dt)
 	if(is_active()){
 		cur_time_ += dt;
 
-		if(has_sound() && (state_type() != STATE_WALK || static_cast<qdGameObject*>(owner()) -> check_flag(QD_OBJ_MOVING_FLAG))){
+		bool play_voice = !(qdLocalization::instance().subtitles_only() && has_text());
+		if(has_sound() && play_voice && (state_type() != STATE_WALK || static_cast<qdGameObject*>(owner()) -> check_flag(QD_OBJ_MOVING_FLAG))){
 			if(!is_sound_started_){
 				if(!has_sound_delay() || cur_time_ >= sound_delay_){
 					play_sound();
@@ -735,15 +737,15 @@ const char* qdGameObjectState::short_text() const
 }
 
 #ifdef _QUEST_EDITOR
-//! Выдает имя курсора. Пустая строка, если установлен курсор по умолчанию
+//! пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 std::string const& qdGameObjectState::cursor_name() const{
 	return cursor_name_;
 }
-//! Установка имени курсора
+//! пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 void qdGameObjectState::set_cursor_name(std::string const& cursor_name){
 	cursor_name_ = cursor_name;
 }
-//! По имени курсора определяет его номер
+//! пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
 void qdGameObjectState::update_cursor_id(qdGameDispatcher const& gameDispatcher)
 {
 	if (cursor_name_.empty()

@@ -1,0 +1,46 @@
+From: qdEngine English patch <patch@qdengine.local>
+Subject: [PATCH] qdengine: full redraw on interface screen change + button init
+
+The main menu draws volume sliders (music/zvuk) each frame because they are
+linked to option_id values, but the background (fon.tga) and 800x600 button
+QDAs only register screen regions on the first full redraw. Without a game-level
+fullscreen invalidation after select_screen(), later frames repaint only the
+slider strips and the rest of the menu stays black.
+
+Also force qdInterfaceButton::init() to activate state 0 so button animations
+are referenced before the first redraw.
+
+Apply on top of scummvm/qdengine_nested_loose_files.patch when building ScummVM.
+
+diff --git a/engines/qdengine/qdcore/qd_interface_button.cpp b/engines/qdengine/qdcore/qd_interface_button.cpp
+index 1111111..2222222 100644
+--- a/engines/qdengine/qdcore/qd_interface_button.cpp
++++ b/engines/qdengine/qdcore/qd_interface_button.cpp
+@@ -186,8 +186,11 @@ bool qdInterfaceButton::init(bool is_game_active) {
+ 		p->set_state_mode(qdInterfaceElementState::DEFAULT_MODE);
+ 	}
+ 
+-	if (_cur_state != -1)
+-		return set_state(get_state(_cur_state));
++	if (num_states() > 0) {
++		if (_cur_state < 0)
++			_cur_state = 0;
++		return activate_state(_cur_state);
++	}
+ 
+ 	return true;
+ }
+diff --git a/engines/qdengine/qdcore/qd_interface_dispatcher.cpp b/engines/qdengine/qdcore/qd_interface_dispatcher.cpp
+index 3333333..4444444 100644
+--- a/engines/qdengine/qdcore/qd_interface_dispatcher.cpp
++++ b/engines/qdengine/qdcore/qd_interface_dispatcher.cpp
+@@ -154,6 +154,9 @@ bool qdInterfaceDispatcher::select_screen(const char *screen_name, bool lock_reso
+ 			_cur_screen->lock_resources();
+ 	}
+ 
++	if (qdGameDispatcher *gdp = qdGameDispatcher::get_dispatcher())
++		gdp->toggle_full_redraw();
++
+ 	_need_full_redraw = true;
+ 
+ 	return true;

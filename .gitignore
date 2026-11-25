@@ -9,3 +9,40 @@ dbg/
 
 # build logs
 build*.log
+
+# game disc images and installer payloads (not redistributable)
+*.mdf
+*.mds
+SETUP_*.BIN
+setup-*.bin
+game/installer/
+
+# extracted game binaries and archives (not redistributable)
+game/
+Pohozhdeniya-bravogo-soldata-Shveyka_Win_RU_CD*/
+
+# retail voice clips and UI crops extracted for local reference
+translation/voice_samples/
+translation/ui_text/
+translation/ui_text_test/
+
+# translator dev server
+tools/translator/node_modules/
+tools/translator/dist/
+
+# extracted UI work files and loose retail copies (large binaries)
+patch/ui_src/
+patch/ui_en/
+patch/overrides/
+patch/qda_work/
+patch/qda_work_test/
+patch/resource_loose/
+patch/letters/
+patch/to_translate/
+patch/inventory_bar/
+patch/*_loose/
+patch/qd_game.qml
+patch/main_menu_composite.png
+
+__pycache__/
+*.pyc

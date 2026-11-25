@@ -1,0 +1,12 @@
+--- a/engines/qdengine/qdcore/qd_minigame_interface.cpp
++++ b/engines/qdengine/qdcore/qd_minigame_interface.cpp
+@@ -395,8 +395,8 @@ const char *qdMinigameObjectInterfaceImplBase::current_state_name() const {
+ 
+ bool qdMinigameObjectInterfaceImplBase::is_state_active(const char *state_name) const {
+-	if (!has_state(state_name))
+-		warning("is_state_active(): Unknown state '%s'", transCyrillic(state_name));
++	// Retail qdEngine returns false silently when the state does not exist.
++	// Schweik also mixes state names ``отработан`` / ``отработано`` across scenes.
+ 
+ 	return _object->is_state_active(state_name);
+ }

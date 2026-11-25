@@ -874,6 +874,14 @@ SOURCE=.\qdCore\qd_setup.cpp
 
 SOURCE=.\qdCore\qd_setup.h
 # End Source File
+# Begin Source File
+
+SOURCE=.\qdCore\qd_localization.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\qdCore\qd_localization.h
+# End Source File
 # End Group
 # Begin Group "Base"
 

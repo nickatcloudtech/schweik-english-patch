@@ -1,0 +1,48 @@
+From: qdEngine English patch <patch@qdengine.local>
+Subject: [PATCH] qdengine: open nested Resource paths loose on disk
+
+ScummVM's SearchMan indexes only four directory levels below the game
+folder (Engine::initializePath). Main-menu button QDAs live one level
+deeper, e.g. Resource/Interface/Main menu/exit/exit_active.qda, so
+edited loose files are ignored and retail pak art is loaded instead.
+
+Fall back to a direct FSNode open when SearchMan misses the file but it
+exists on disk under the game path.
+
+diff --git a/engines/qdengine/qdcore/qd_file_manager.cpp b/engines/qdengine/qdcore/qd_file_manager.cpp
+index 1111111..2222222 100644
+--- a/engines/qdengine/qdcore/qd_file_manager.cpp
++++ b/engines/qdengine/qdcore/qd_file_manager.cpp
+@@ -20,6 +20,8 @@
+ 
+ #include "common/debug.h"
+ #include "common/file.h"
++#include "common/config-manager.h"
++#include "common/fs.h"
+ #include "common/compression/unzip.h"
+ 
+ #include "qdengine/qdengine.h"
+@@ -103,6 +105,22 @@ bool qdFileManager::open_file(Common::SeekableReadStream **fh, const Common::Path
+ 		return true;
+ 	}
+ 
++	// SearchMan only indexes a shallow tree; nested Interface QDAs may exist
++	// loose on disk without being registered. Try the game path directly.
++	{
++		const Common::Path gamePath = ConfMan.getPath("path");
++		const Common::Path loosePath = gamePath.appendComponent(file_name);
++		Common::FSNode node(loosePath);
++		if (node.exists() && !node.isDirectory()) {
++			Common::File *f = new Common::File();
++			if (f->open(loosePath)) {
++				*fh = f;
++				debugC(5, kDebugLoad, "qdFileManager::open_file(%s): loose FSNode", transCyrillic(file_name.toString()));
++				return true;
++			}
++			delete f;
++		}
++	}
++
+ 	for (int i = 0; i < _packageCount; i++) {
+ 		if (!_packages[i].is_open())
+ 			_packages[i].open();

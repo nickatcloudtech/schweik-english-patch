@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+# Copy English patch files into the game folder.
+# ScummVM reads shallow loose paths before resource0.pak; nested menu QDAs are
+# also injected into the pak (SearchMan only indexes four directory levels).
+#
+# Usage: ./deploy
+#    or: ./deploy /path/to/game/folder
+#    or: ./deploy --text-only
+#    or: ./deploy /path/to/game --graphics-only
+
+set -euo pipefail
+ROOT="$(cd "$(dirname "$0")" && pwd)"
+
+ARGS=()
+GAME_DIR="$ROOT/game/shveik/app"
+for arg in "$@"; do
+  case "$arg" in
+    --text-only|--graphics-only)
+      ARGS+=("$arg")
+      ;;
+    *)
+      GAME_DIR="$arg"
+      ;;
+  esac
+done
+
+echo "Deploying loose patch files to: $GAME_DIR"
+exec python3 "$ROOT/tools/deploy_loose.py" --game-dir "$GAME_DIR" "${ARGS[@]}"

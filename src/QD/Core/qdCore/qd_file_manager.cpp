@@ -4,6 +4,7 @@
 
 #include "qd_file_manager.h"
 #include "qd_game_dispatcher.h"
+#include "qd_localization.h"
 
 /* ----------------------------- STRUCT SECTION ----------------------------- */
 /* ----------------------------- EXTERN SECTION ----------------------------- */
@@ -114,13 +115,15 @@ qdFileManager& qdFileManager::instance()
 
 bool qdFileManager::open_file(XZipStream& fh, const char* file_name, bool err_message)
 {
+	const char* localized_name = qdLocalization::instance().translate_resource_path(file_name);
+
 	bool err = fh.handleErrors();
 	fh.setHandleErrors(false);
-	if(!fh.open(file_name)){
+	if(!fh.open(localized_name)){
 		if(err_message){
 			if(enable_packages_ && request_CD_handler_){
 				if((*request_CD_handler_)(last_CD_id_)){
-					if(fh.open(file_name)){
+					if(fh.open(localized_name)){
 						fh.setHandleErrors(err);
 						return true;
 					}
@@ -129,12 +132,12 @@ bool qdFileManager::open_file(XZipStream& fh, const char* file_name, bool err_me
 
 			if(!silent_update_mode_){
 				while(1){
-					switch(app_errH.message_box(file_name,appErrorHandler::ERR_FILE_NOT_FOUND,appErrorHandler::ERR_MB_ABORTRETRYIGNORE)){
+					switch(app_errH.message_box(localized_name,appErrorHandler::ERR_FILE_NOT_FOUND,appErrorHandler::ERR_MB_ABORTRETRYIGNORE)){
 					case appErrorHandler::ERR_RETRY:
 						scan_drives();
 						update_packages();
 
-						if(fh.open(file_name)){
+						if(fh.open(localized_name)){
 							fh.setHandleErrors(err);
 							return true;
 						}

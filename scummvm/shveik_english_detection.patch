@@ -1,0 +1,22 @@
+--- a/engines/qdengine/detection_tables.h
++++ b/engines/qdengine/detection_tables.h
+@@ -169,6 +169,19 @@ const ADGameDescription GAME_DESCRIPTIONS[] = {
+ 	GAME("shveik", "3877afbb780996a5608a5b358dd59726", 30233418,
+ 			"shveik.exe", "a56cb058b46e47754019652d27d974b3", 962560),
+ 
++	{ // English community patch (qdEngine localization project)
++	  // Detects when scummvm_english.marker from ./deploy is present.
++		"shveik",
++		"English",
++		AD_ENTRY3s("qd_game.qml", "3877afbb780996a5608a5b358dd59726", 30233418,
++			   "shveik.exe", "a56cb058b46e47754019652d27d974b3", 962560,
++			   "scummvm_english.marker", "288b84c45fd41cb71ceea8a1e14a4b02", 87),
++		Common::EN_ANY,
++		Common::kPlatformWindows,
++		ADGF_DROPPLATFORM,
++		GUIO1(GUIO_NONE)
++	},
++
+ 	// Клёпа: Символические Заклепки
+ 	// 2007/10/19. K-D Logic
+ 	GAME("klepa", "a09e1f072942d88c06abccfb820f46a9", 20260975,
